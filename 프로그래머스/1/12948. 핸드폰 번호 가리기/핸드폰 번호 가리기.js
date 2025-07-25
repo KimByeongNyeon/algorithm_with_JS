@@ -7,7 +7,5 @@ function solution(phone_number) {
         new_str += "*"
     }
     
-    console.log(new_str)
-    console.log(change_str)
     return phone_number.replace(change_str, new_str);
 }
