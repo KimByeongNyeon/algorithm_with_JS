@@ -1,7 +1,6 @@
 function solution(participant, completion) {
     var answer = '';
-    var people = {}
-    var counts = []
+    var counts = {}
     
     participant.forEach((name) => {
         counts[name] = (counts[name] || 0) + 1;
