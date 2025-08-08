@@ -4,17 +4,19 @@ function solution(s, skip, index) {
         let current = s[i].charCodeAt(0);
         let count = 0
         
+        
         while (count < index) {
-            current++;
+            current++
+            
             if (current > 122) {
-                current = 97; 
+                current = 97
             }
-
+            
             if (!skip.includes(String.fromCharCode(current))) {
-                count++;
+                count++
             }
         }
-        answer += String.fromCharCode(current);
+        answer += String.fromCharCode(current)
     }
     return answer;
 }
