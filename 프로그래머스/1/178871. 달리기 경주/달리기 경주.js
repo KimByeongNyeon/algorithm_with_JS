@@ -3,15 +3,17 @@ function solution(players, callings) {
     players.forEach((name, index) => {
         positionMap[name] = index;
     });
+    console.log()
 
     for (const name of callings) {
-        const idx = positionMap[name];
-        const frontPlayer = players[idx - 1];
-
-        [players[idx - 1], players[idx]] = [players[idx], players[idx - 1]];
-
-        positionMap[name]--;
-        positionMap[frontPlayer]++;
+        let idx = positionMap[name];
+        let frontplayer = players[idx - 1]
+        
+        players[idx - 1] = players[idx]
+        players[idx] = frontplayer
+        
+        positionMap[name]--
+        positionMap[frontplayer]++
     }
 
     return players;
