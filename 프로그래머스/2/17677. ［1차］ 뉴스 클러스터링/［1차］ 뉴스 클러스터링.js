@@ -11,6 +11,16 @@ function countMap(arr) {
   return map;
 }
 
+function append(str) {
+    let list = []
+    for (let i = 0; i < str.length - 1; i++) {
+        const a = str[i];
+        const b = str[i + 1];
+        if (isAlpha(a) && isAlpha(b)) list.push(a + b);
+      }
+    return list
+}
+
 function jakad(list1, list2) {
   if (list1.length === 0 && list2.length === 0) return 65536;
 
@@ -32,23 +42,10 @@ function jakad(list1, list2) {
 }
 
 function solution(str1, str2) {
-  const list1 = [];
-  const list2 = [];
-
   str1 = str1.toUpperCase();
   str2 = str2.toUpperCase();
-
-  for (let i = 0; i < str1.length - 1; i++) {
-    const a = str1[i];
-    const b = str1[i + 1];
-    if (isAlpha(a) && isAlpha(b)) list1.push(a + b);
-  }
-
-  for (let i = 0; i < str2.length - 1; i++) {
-    const a = str2[i];
-    const b = str2[i + 1];
-    if (isAlpha(a) && isAlpha(b)) list2.push(a + b);
-  }
+    let list1 = append(str1)
+    let list2 = append(str2)
 
   return jakad(list1, list2);
 }
