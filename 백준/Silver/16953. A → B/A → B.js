@@ -12,12 +12,10 @@ const input = fs
 
 const solution = (input) => {
   const [A, B] = input[0].split(" ").map(Number);
-  const visited = new Set();
   const limit = 1000000000;
 
   const bfs = () => {
     let queue = [[A, 1]];
-    visited.add(A);
     let head = 0;
 
     while (head < queue.length) {
@@ -27,8 +25,7 @@ const solution = (input) => {
 
       let next = [cur * 2, parseInt(cur.toString() + "1")];
       for (let i = 0; i < 2; i++) {
-        if (!visited.has(next[i]) && next[i] <= limit) {
-          visited.add(next[i]);
+        if (next[i] <= limit) {
           queue.push([next[i], cnt + 1]);
         }
       }
