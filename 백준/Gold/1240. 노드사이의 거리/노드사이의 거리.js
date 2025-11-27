@@ -21,32 +21,51 @@ const solution = (input) => {
     graph[a].push({ to: b, cost: c });
     graph[b].push({ to: a, cost: c });
   }
-  let answer = [];
+
   for (let i = 0; i < M; i++) {
     const [start, end] = input[idx++].split(" ").map(Number);
 
-    const bfs = () => {
-      const visited = Array.from({ length: N }, () => false);
-      let queue = [[start, 0]];
-      visited[start] = true;
+    // const bfs = () => {
+    //   const visited = Array.from({ length: N }, () => false);
+    //   let queue = [[start, 0]];
+    //   visited[start] = true;
 
-      let head = 0;
-      while (queue.length > head) {
-        const [cur, dist] = queue[head++];
+    //   let head = 0;
+    //   while (queue.length > head) {
+    //     const [cur, dist] = queue[head++];
 
-        if (cur === end) return dist;
+    //     if (cur === end) return dist;
 
-        for (const { to, cost } of graph[cur]) {
-          if (!visited[to]) {
-            visited[to] = true;
-            queue.push([to, dist + cost]);
-          }
+    //     for (const { to, cost } of graph[cur]) {
+    //       if (!visited[to]) {
+    //         visited[to] = true;
+    //         queue.push([to, dist + cost]);
+    //       }
+    //     }
+    //   }
+    //   return 0;
+    // };
+    const visited = Array.from({ length: N }, () => false);
+    let answer = 0;
+    const dfs = (cur, dist) => {
+      if (cur === end) {
+        answer = dist;
+        return;
+      }
+
+      visited[cur] = true;
+
+      for (const { to, cost } of graph[cur]) {
+        if (!visited[to]) {
+          visited[to] = true;
+          dfs(to, dist + cost);
+          visited[to] = false;
         }
       }
-      return 0;
     };
 
-    console.log(bfs());
+    dfs(start, 0);
+    console.log(answer);
   }
 };
 solution(input);
