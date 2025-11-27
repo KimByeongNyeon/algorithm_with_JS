@@ -57,9 +57,7 @@ const solution = (input) => {
 
       for (const { to, cost } of graph[cur]) {
         if (!visited[to]) {
-          visited[to] = true;
           dfs(to, dist + cost);
-          visited[to] = false;
         }
       }
     };
