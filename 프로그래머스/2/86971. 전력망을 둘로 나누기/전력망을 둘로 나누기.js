@@ -20,19 +20,15 @@ const solution = (n, wires) => {
     while (queue.length > head) {
       let idx = queue[head++];
       // tree 탐색
-      tree[idx].forEach((el) => {
-        // 간선이 끊어져 있기 때문에 갈 수 있는 노드가 b 이거나 이미 방문했다면 건너뛰기
-        if (el !== b && visited[el] !== true) {
-          // 방문 처리
-          visited[el] = true;
-          // 다음 노드 추가
-          queue.push(el);
-          console.log(queue);
-        }
-      });
 
+      for (let value of tree[idx]) {
+        if (value !== b && visited[value] !== true ) {
+            visited[value] = true;
+            queue.push(value);
+
+        }
+      }
       count++;
-      console.log(count);
     }
     return count;
   };
