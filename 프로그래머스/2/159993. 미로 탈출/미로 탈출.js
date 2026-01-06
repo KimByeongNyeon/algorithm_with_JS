@@ -1,5 +1,13 @@
-function bfs(start, arr, end) {
-    arr[start[0]][start[1]] = 'X'
+
+
+function solution(maps) {
+    const arr = maps.map(row => row.split(""));
+
+    function bfs(start, arr, end) {
+            const visited = Array.from({ length: arr.length }, () =>
+  Array(arr[0].length).fill(0)
+);
+    visited[start[0]][start[1]] = 1
     const dx = [-1, 1, 0, 0]
     const dy = [0, 0, -1, 1]
     let time = 0
@@ -13,11 +21,11 @@ function bfs(start, arr, end) {
                 let nx = x + dx[k]
                 let ny = y + dy[k]
 
-                if (0 <= nx && nx < arr.length && 0 <= ny && ny < arr[0].length && arr[nx][ny] !== 'X') {
+                if (0 <= nx && nx < arr.length && 0 <= ny && ny < arr[0].length && visited[nx][ny] !== 1 && arr[nx][ny] !== 'X') {
                     if (arr[nx][ny] === end) {
                         return time + 1
                     }
-                    arr[nx][ny] = 'X'
+                    visited[nx][ny] = 1
                     queue.push([nx, ny])
 
                 }
@@ -28,8 +36,6 @@ function bfs(start, arr, end) {
     return - 1
 }
 
-function solution(maps) {
-    const arr = maps.map(row => row.split(""));
     let startCoord, leverCoord;
 
     for (let i = 0; i < arr.length; i++) {
