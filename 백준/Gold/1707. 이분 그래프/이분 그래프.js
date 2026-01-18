@@ -28,45 +28,45 @@ const solution = (input) => {
       graph[b].push(a);
     }
 
-    const bfs = (node) => {
-      let head = 0;
-      let queue = [node];
-      visited[node] = 1;
-      while (head < queue.length) {
-        let x = queue[head++];
+    // const bfs = (node) => {
+    //   let head = 0;
+    //   let queue = [node];
+    //   visited[node] = 1;
+    //   while (head < queue.length) {
+    //     let x = queue[head++];
 
-        for (let nx of graph[x]) {
-          if (visited[nx] === 0) {
-            visited[nx] = visited[x] * -1;
-            queue.push(nx);
-          } else {
-            if (visited[x] === visited[nx]) {
-              return false;
-            }
-          }
-        }
-      }
-      return true;
-    };
-
-    // const dfs = (node) => {
-    //   for (let nx of graph[node]) {
-    //     if (visited[nx] === 0) {
-    //       visited[nx] = visited[node] * -1;
-    //       if (!dfs(nx)) return false;
-    //     } else {
-    //       if (visited[nx] === visited[node]) {
-    //         return false;
+    //     for (let nx of graph[x]) {
+    //       if (visited[nx] === 0) {
+    //         visited[nx] = visited[x] * -1;
+    //         queue.push(nx);
+    //       } else {
+    //         if (visited[x] === visited[nx]) {
+    //           return false;
+    //         }
     //       }
     //     }
     //   }
     //   return true;
     // };
 
+    const dfs = (node) => {
+      for (let nx of graph[node]) {
+        if (visited[nx] === 0) {
+          visited[nx] = visited[node] * -1;
+          if (!dfs(nx)) return false;
+        } else {
+          if (visited[nx] === visited[node]) {
+            return false;
+          }
+        }
+      }
+      return true;
+    };
+
     for (let i = 1; i < graph.length + 1; i++) {
       if (visited[i] === 0) {
         visited[i] = 1;
-        flag = bfs(i);
+        flag = dfs(i);
         if (!flag) break;
       }
     }
