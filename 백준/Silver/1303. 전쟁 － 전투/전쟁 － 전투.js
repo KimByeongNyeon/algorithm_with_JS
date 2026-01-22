@@ -1,57 +1,77 @@
 const fs = require("fs");
 const path = require("path");
 const input = fs
-  .readFileSync(process.platform === "linux" ? "/dev/stdin" : path.join(__dirname, "input.txt"))
+  .readFileSync(
+    process.platform === "linux"
+      ? "/dev/stdin"
+      : path.join(__dirname, "input.txt")
+  )
   .toString()
   .trim()
   .split("\n");
 
 const solution = (input) => {
-  const [N, M] = input[0].split(" ").map(Number); // N=가로(M), M=세로(N) 문제에 따라 다름
-  // 백준 1303은 "N M" = 가로 N, 세로 M
-  // 네 JS는 [N, M]을 행/열로 쓰고 있으니 아래처럼 맞춰주는게 안전:
-  const cols = N; 
-  const rows = M;
-
-  const arr = Array.from({ length: rows }, (_, i) => input[i + 1].split(""));
-  const visited = Array.from({ length: rows }, () => Array(cols).fill(false));
-
+  const [M, N] = input[0].split(" ").map(Number);
   const dx = [-1, 1, 0, 0];
   const dy = [0, 0, -1, 1];
 
-  const bfs = (sx, sy, color) => {
-    let head = 0;
-    const q = [[sx, sy]];
-    visited[sx][sy] = true;
+  const visited = Array.from({ length: N }, () => Array(M).fill(0));
+
+  const arr = [];
+  for (let i = 1; i <= N; i++) {
+    arr.push(input[i].split(""));
+  }
+
+  const dfs = (x, y, color) => {
+    visited[x][y] = 1;
     let cnt = 1;
+    for (let k = 0; k < 4; k++) {
+      let nx = x + dx[k];
+      let ny = y + dy[k];
 
-    while (head < q.length) {
-      const [x, y] = q[head++];
-
-      for (let k = 0; k < 4; k++) {
-        const nx = x + dx[k];
-        const ny = y + dy[k];
-
-        if (0 <= nx && nx < rows && 0 <= ny && ny < cols) {
-          if (!visited[nx][ny] && arr[nx][ny] === color) {
-            visited[nx][ny] = true;
-            q.push([nx, ny]);
-            cnt++;
-          }
+      if (0 <= nx && nx < N && 0 <= ny && ny < M) {
+        if (!visited[nx][ny] && arr[nx][ny] === color) {
+          cnt += dfs(nx, ny, color);
         }
       }
     }
+
     return cnt;
   };
+  //   const bfs = (x, y, color) => {
+  //     let head = 0;
+  //     let queue = [[x, y]];
+
+  //     visited[x][y] = true;
+  //     let cnt = 1;
+
+  //     while (head < queue.length) {
+  //       const [nx, ny] = queue[head++];
+
+  //       for (let k = 0; k < 4; k++) {
+  //         const nnx = nx + dx[k];
+  //         const nny = ny + dy[k];
+
+  //         if (0 <= nnx && nnx < N && 0 <= nny && nny < M) {
+  //           if (!visited[nnx][nny] && arr[nnx][nny] === color) {
+  //             visited[nnx][nny] = true;
+  //             queue.push([nnx, nny]);
+  //             cnt++;
+  //           }
+  //         }
+  //       }
+  //     }
+  //     return cnt;
+  //   };
 
   let w_total = 0;
   let b_total = 0;
 
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      if (!visited[i][j]) {
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < M; j++) {
+      if (visited[i][j] === 0) {
         const color = arr[i][j];
-        const size = bfs(i, j, color);
+        const size = dfs(i, j, color);
         if (color === "W") w_total += size * size;
         else b_total += size * size;
       }
