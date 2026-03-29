@@ -12,16 +12,18 @@ const input = fs
 
 const solution = (input) => {
   const str = input[0];
+  let window = str.slice(0, 3);
 
   let jCnt = 0;
   let iCnt = 0;
-  for (let i = 0; i < str.length - 2; i++) {
-    let current = "";
-    for (let j = i; j < i + 3; j++) {
-      current += str[j];
-    }
-    if (current === "JOI") jCnt++;
-    else if (current === "IOI") iCnt++;
+
+  if (window === "JOI") jCnt++;
+  else if (window === "IOI") iCnt++;
+
+  for (let i = 3; i < str.length; i++) {
+    window = window.slice(1) + str[i];
+    if (window === "JOI") jCnt++;
+    else if (window === "IOI") iCnt++;
   }
   console.log(jCnt);
   console.log(iCnt);
