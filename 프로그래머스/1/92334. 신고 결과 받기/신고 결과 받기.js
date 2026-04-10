@@ -6,12 +6,11 @@ function solution(id_list, report, k) {
     id_list.forEach((value) => {
         name[value] = []
     })
-    
-    temp.forEach((r) => {
-        const [from, to] = r.split(" ");
-        obj[to] = (obj[to] || 0) + 1;
-    });
-    
+
+    for (let i = 0; i < temp.length; i++) {
+        const to = temp[i].split(" ")[1]
+        obj[to] = (obj[to] || 0) + 1
+    }
     temp.forEach((r) => {
         const [from, to] = r.split(" ")
         if (obj[to] >= k) {
